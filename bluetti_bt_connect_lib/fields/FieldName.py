@@ -101,6 +101,8 @@ class FieldName(Enum):
     LOAD_P1_POWER = "load_p1_power"
     LOAD_P2_POWER = "load_p2_power"
     LOAD_P3_POWER = "load_p3_power"
+    GRID_EXPORT_ENABLED = "grid_export_enabled"
+    ADV_LOGIN_PASSWORD = "adv_login_password"
     TOTAL_AC_POWER = "total_ac_power"
     TOTAL_SELF_CONSUMPTION = "total_self_consumption"
     TIME_REMAINING = "time_remaining"
