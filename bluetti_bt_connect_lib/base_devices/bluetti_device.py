@@ -29,6 +29,13 @@ class BluettiDevice:
         self.pack_polling_registers: List[ReadableRegisters] = []
 
         for f in self.fields:
+            # Write-only fields (e.g. password/unlock fields) are never
+            # included in regular polling - there's no need to continuously
+            # re-read them, and doing so risks destabilizing the BLE
+            # connection for larger multi-register reads that this device
+            # class may not handle as reliably as normal small reads.
+            if isinstance(f, WriteableStringField):
+                continue
             group = ReadableRegisters(f.address, f.size)
             self.polling_registers.append(group)
 
