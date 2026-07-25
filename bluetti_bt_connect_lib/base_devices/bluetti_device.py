@@ -1,7 +1,14 @@
 from typing import Any, List
 
-from ..registers import ReadableRegisters, WriteableRegister
-from ..fields import DeviceField, BoolField, BoolFieldNonZero, SwitchField, SelectField
+from ..registers import ReadableRegisters, WriteableRegister, WriteableRegisters
+from ..fields import (
+    DeviceField,
+    BoolField,
+    BoolFieldNonZero,
+    SwitchField,
+    SelectField,
+    WriteableStringField,
+)
 
 
 class BluettiDevice:
@@ -94,7 +101,9 @@ class BluettiDevice:
 
         return parsed
 
-    def build_write_command(self, name: str, value: Any) -> WriteableRegister | None:
+    def build_write_command(
+        self, name: str, value: Any
+    ) -> WriteableRegister | WriteableRegisters | None:
         """Build a command to write values to the device"""
 
         matches = [f for f in self.fields if f.name == name]
@@ -104,6 +113,10 @@ class BluettiDevice:
             return None
 
         field = next(iter(fields))
+
+        if isinstance(field, WriteableStringField):
+            registers = field.encode_for_write(value)
+            return WriteableRegisters(field.address, registers)
 
         # Convert value to an integer if its not already
         if isinstance(field, SelectField):
@@ -131,6 +144,10 @@ class BluettiDevice:
         """Returns all select fields for this device"""
         return [f for f in self.fields if isinstance(f, SelectField)]
 
+    def get_text_fields(self):
+        """Returns all writeable string fields for this device"""
+        return [f for f in self.fields if isinstance(f, WriteableStringField)]
+
     def get_sensor_fields(self):
         """Returns all sensor fields for this device"""
         return [
@@ -140,4 +157,5 @@ class BluettiDevice:
             and not isinstance(f, BoolFieldNonZero)
             and not isinstance(f, SwitchField)
             and not isinstance(f, SelectField)
+            and not isinstance(f, WriteableStringField)
         ]
