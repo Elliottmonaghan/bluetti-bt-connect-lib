@@ -8,7 +8,6 @@ modbus_crc = crcmod.predefined.mkCrcFun("modbus")
 class RegisterAction(Enum):
     READ = 3
     WRITE = 6
-    WRITE_MULTIPLE = 16
 
 
 class DeviceRegister:

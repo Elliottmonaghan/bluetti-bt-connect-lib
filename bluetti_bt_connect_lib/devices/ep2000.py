@@ -10,7 +10,6 @@ from ..fields import (
     VersionField,
     SwitchField,
     BoolField,
-    WriteableStringField,
 )
 
 
@@ -60,11 +59,9 @@ class EP2000(BaseDeviceV2):
                 UIntField(FieldName.LOAD_P1_POWER, 1430),
                 UIntField(FieldName.LOAD_P2_POWER, 1436),
                 UIntField(FieldName.LOAD_P3_POWER, 1442),
-                WriteableStringField(FieldName.ADV_LOGIN_PASSWORD, 2200, 4),
                 SwitchField(FieldName.CTRL_AC, 2011),
                 UIntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
                 UIntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
-                SwitchField(FieldName.GRID_EXPORT_ENABLED, 2208),
                 BoolField(FieldName.CTRL_GENERATOR, 2246),
                 DecimalField(FieldName.GRID_VOLT_MIN_VAL, 2435, 1),
                 DecimalField(FieldName.GRID_VOLT_MAX_VAL, 2436, 1),

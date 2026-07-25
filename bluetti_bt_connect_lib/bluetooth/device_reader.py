@@ -227,15 +227,7 @@ class DeviceReader:
             self.logger.debug("Got response")
 
             return cast(bytes, res)
-        except (BleakError, asyncio.TimeoutError):
-            # Connection-level failures - re-raise so the caller can abort
-            # cleanly and disconnect, rather than continuing to attempt
-            # further register reads on an already-broken connection.
-            self.logger.warning("Error while reading data")
-            raise
-        except Exception:
-            # Anything else (e.g. malformed response) - log and move on,
-            # this register's data just won't be included this cycle.
+        except:
             self.logger.warning("Error while reading data")
 
         return bytes()
