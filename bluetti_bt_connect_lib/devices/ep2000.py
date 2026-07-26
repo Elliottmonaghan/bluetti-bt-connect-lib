@@ -17,11 +17,6 @@ class EP2000(BaseDeviceV2):
     def __init__(self):
         super().__init__(
             [
-                DecimalField(FieldName.BATTERY_VOLTAGE, 103, 1),
-                DecimalField(FieldName.BATTERY_CURRENT, 104, 1),
-                SIntField(FieldName.BATTERY_POWER, 105),
-                DecimalField(FieldName.DEVICE_TEMPERATURE, 1101, 1),
-                DecimalField(FieldName.BATTERY_TEMPERATURE, 1102, 1),
                 SInt32Field(FieldName.TOTAL_PV_POWER, 1200),
                 SInt32Field(FieldName.POWER_GENERATION, 1202, 0.1),
                 UIntField(FieldName.PV_S1_POWER, 1212),
