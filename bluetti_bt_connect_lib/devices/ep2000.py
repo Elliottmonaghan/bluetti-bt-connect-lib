@@ -17,6 +17,11 @@ class EP2000(BaseDeviceV2):
     def __init__(self):
         super().__init__(
             [
+                DecimalField(FieldName.BATTERY_VOLTAGE, 103, 1),
+                DecimalField(FieldName.BATTERY_CURRENT, 104, 1),
+                SIntField(FieldName.BATTERY_POWER, 105),
+                DecimalField(FieldName.DEVICE_TEMPERATURE, 1101, 1),
+                DecimalField(FieldName.BATTERY_TEMPERATURE, 1102, 1),
                 SInt32Field(FieldName.TOTAL_PV_POWER, 1200),
                 SInt32Field(FieldName.POWER_GENERATION, 1202, 0.1),
                 UIntField(FieldName.PV_S1_POWER, 1212),
@@ -56,10 +61,12 @@ class EP2000(BaseDeviceV2):
                 SIntField(FieldName.AC_P3_POWER, 1524),
                 DecimalField(FieldName.AC_P3_VOLTAGE, 1525, 1),
                 DecimalField(FieldName.AC_P3_CURRENT, 1526, 1),
+                UIntField(FieldName.AC_OUTPUT_TOTAL_POWER, 1532),
                 UIntField(FieldName.LOAD_P1_POWER, 1430),
                 UIntField(FieldName.LOAD_P2_POWER, 1436),
                 UIntField(FieldName.LOAD_P3_POWER, 1442),
                 SwitchField(FieldName.CTRL_AC, 2011),
+                UIntField(FieldName.WORKING_MODE, 2013),
                 UIntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
                 UIntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
                 BoolField(FieldName.CTRL_GENERATOR, 2246),
