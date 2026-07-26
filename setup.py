@@ -29,9 +29,7 @@ setup(
         "bleak",
         "bleak_retry_connector",
         "crcmod",
-        "cryptography",
         "logging",
-        "pyasn1",
     ],
     keywords=[],
     entry_points={
