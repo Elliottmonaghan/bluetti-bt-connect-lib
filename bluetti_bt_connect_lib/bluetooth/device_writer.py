@@ -11,9 +11,8 @@ from ..utils.privacy import mac_loggable
 
 
 class DeviceWriterConfig:
-    def __init__(self, timeout: int = 15, use_encryption: bool = False):
+    def __init__(self, timeout: int = 15):
         self.timeout = timeout
-        self.use_encryption = use_encryption
 
 
 class DeviceWriter:
@@ -34,10 +33,6 @@ class DeviceWriter:
         )
 
     async def write(self, field: str, value: Any):
-        if self.config.use_encryption:
-            self.logger.error("Encryption on writes is not yet supported")
-            return
-
         available_fields = [f.name for f in self.bluetti_device.fields]
         if field not in available_fields:
             self.logger.error("Field not supported")

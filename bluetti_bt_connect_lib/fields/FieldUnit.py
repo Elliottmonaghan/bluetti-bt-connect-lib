@@ -17,7 +17,6 @@ FIELD_UNIT: Dict[FieldName, str] = {
     FieldName.AC_P2_POWER: "W",
     FieldName.AC_P2_VOLTAGE: "V",
     FieldName.AC_P3_CURRENT: "A",
-    FieldName.AC_OUTPUT_TOTAL_POWER: "W",
     FieldName.AC_P3_POWER: "W",
     FieldName.AC_P3_VOLTAGE: "V",
     FieldName.BATTERY_SOC: "%",
