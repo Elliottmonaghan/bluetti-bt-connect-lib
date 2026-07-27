@@ -69,6 +69,32 @@ class EP2000(BaseDeviceV2):
                 DecimalField(FieldName.GRID_FREQ_MIN_VALUE, 2437, 2),
                 DecimalField(FieldName.GRID_FREQ_MAX_VALUE, 2438, 2),
                 SwapStringField(FieldName.WIFI_NAME, 12002, 16),
+                # Battery pack detail block (register 6100+). Read directly
+                # here rather than via the pack_fields/max_packs mechanism
+                # below, since that's currently dormant (max_packs=0) and
+                # untested for multi-pack selection - this matches what was
+                # actually observed in the official app's own traffic: a
+                # single direct read, no per-pack selection write involved.
+                # Validated July 27-28 against a real capture: battery
+                # voltage, SOC, and SOH all read as physically sensible
+                # values, and active cell count (112) and stack count (7)
+                # both matched independently-known reference values exactly
+                # (the stack count confirmed directly against the owner's
+                # own real hardware: 7 physical battery stacks attached).
+                SwapStringField(FieldName.BMS_CONTROLLER_MODEL, 6101, 6),
+                DecimalField(FieldName.PACK_VOLTAGE, 6111, 1),
+                UIntField(FieldName.PACK_BATTERY_SOC, 6113, min=0, max=100),
+                UIntField(FieldName.PACK_SOH, 6114, min=0, max=100),
+                UIntField(FieldName.ACTIVE_CELL_COUNT, 6153),
+                UIntField(FieldName.BATTERY_STACK_COUNT, 6154),
+                # Read-only, purely exploratory: register 21000 was
+                # documented as a "NODE_INFO" discovery trigger (write-only,
+                # never observed being read back in any captured traffic).
+                # 21001 is documented as "Total Node Count" - added here as
+                # a read to see what it actually reports; unverified
+                # whether it requires the 21000 trigger to have run first,
+                # or reports a live value regardless.
+                UIntField(FieldName.TOTAL_NODE_COUNT, 21001),
             ],
             [
                 SwapStringField(FieldName.PACK_TYPE, 6101, 6),
