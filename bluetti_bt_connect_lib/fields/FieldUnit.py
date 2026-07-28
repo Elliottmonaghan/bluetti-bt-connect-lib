@@ -17,6 +17,8 @@ FIELD_UNIT: Dict[FieldName, str] = {
     FieldName.AC_P2_POWER: "W",
     FieldName.AC_P2_VOLTAGE: "V",
     FieldName.AC_P3_CURRENT: "A",
+    FieldName.CTRL_GRID_MAX_CURRENT: "A",
+    FieldName.CTRL_GRID_INPUT_CURRENT: "A",
     FieldName.TRUE_AC_TOTAL_POWER: "W",
     FieldName.CONSUMPTION_POWER_ALL: "W",
     FieldName.PV_INPUT_POWER_ALL: "W",
