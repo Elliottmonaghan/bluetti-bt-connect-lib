@@ -110,6 +110,7 @@ class FieldName(Enum):
     LOAD_P2_POWER = "load_p2_power"
     LOAD_P3_POWER = "load_p3_power"
     TOTAL_AC_POWER = "total_ac_power"
+    TRUE_AC_TOTAL_POWER = "true_ac_total_power"
     TOTAL_SELF_CONSUMPTION = "total_self_consumption"
     TIME_REMAINING = "time_remaining"
     VER_ARM = "version_arm"
