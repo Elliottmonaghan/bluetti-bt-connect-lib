@@ -1,4 +1,5 @@
 from ..base_devices import BaseDeviceV2
+from ..enums import WorkingMode
 from ..fields import (
     FieldName,
     UIntField,
@@ -11,6 +12,7 @@ from ..fields import (
     SwitchField,
     BoolField,
     WriteableUIntField,
+    SelectField,
 )
 
 
@@ -69,11 +71,22 @@ class EP2000(BaseDeviceV2):
                 UIntField(FieldName.LOAD_P2_POWER, 1436),
                 UIntField(FieldName.LOAD_P3_POWER, 1442),
                 SwitchField(FieldName.CTRL_AC, 2011),
+                # Register from an EP2000-specific contributor source; enum
+                # values cross-referenced from a related device (AP300,
+                # register 2005 there) - the set of names matches exactly
+                # what's shown in the app's Working Mode dropdown.
+                SelectField(FieldName.WORKING_MODE, 2013, WorkingMode),
                 UIntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
                 UIntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
                 SwitchField(FieldName.CHARGE_FROM_GRID_ENABLED, 2207),
                 SwitchField(FieldName.GRID_EXPORT_ENABLED, 2208),
                 WriteableUIntField(FieldName.MAX_GRID_EXPORT_POWER, 2215, min=0, max=6666),
+                # Cross-referenced from two independent sources (a related
+                # device's register map and the original bluetti_mqtt/EP600
+                # reference, which both agree on this register/purpose).
+                WriteableUIntField(FieldName.CTRL_GRID_MAX_CURRENT, 2214, min=1, max=30),
+                # Single-source, unverified for EP2000 specifically.
+                WriteableUIntField(FieldName.CTRL_GRID_INPUT_CURRENT, 2272, min=1, max=30),
                 BoolField(FieldName.CTRL_GENERATOR, 2246),
                 DecimalField(FieldName.GRID_VOLT_MIN_VAL, 2435, 1),
                 DecimalField(FieldName.GRID_VOLT_MAX_VAL, 2436, 1),
