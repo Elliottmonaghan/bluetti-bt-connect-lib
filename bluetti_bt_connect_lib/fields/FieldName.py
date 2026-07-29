@@ -24,6 +24,7 @@ class FieldName(Enum):
     AC_P3_VOLTAGE = "ac_p3_voltage"
     GRID_EXPORT_ENABLED = "grid_export_enabled"
     MAX_GRID_EXPORT_POWER = "max_grid_export_power"
+    MAX_GRID_EXPORT_CURRENT = "max_grid_export_current"
     WORKING_MODE = "working_mode"
     CTRL_GRID_MAX_CURRENT = "ctrl_grid_max_current"
     CTRL_GRID_INPUT_CURRENT = "ctrl_grid_input_current"
