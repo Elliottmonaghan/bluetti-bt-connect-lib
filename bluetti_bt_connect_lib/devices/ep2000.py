@@ -81,12 +81,30 @@ class EP2000(BaseDeviceV2):
                 SwitchField(FieldName.CHARGE_FROM_GRID_ENABLED, 2207),
                 SwitchField(FieldName.GRID_EXPORT_ENABLED, 2208),
                 WriteableUIntField(FieldName.MAX_GRID_EXPORT_POWER, 2215, min=0, max=6666),
+                # Restored: live-tested and confirmed working in an earlier
+                # build (37A raw read correctly, no scaling needed) before
+                # being lost from the codebase during restructuring. Bound
+                # is the last value you confirmed - 35A for wiring
+                # headroom, since the 6666W power limit above is the true
+                # constraint anyway.
+                WriteableUIntField(FieldName.MAX_GRID_EXPORT_CURRENT, 2216, min=0, max=35),
                 # Cross-referenced from two independent sources (a related
                 # device's register map and the original bluetti_mqtt/EP600
                 # reference, which both agree on this register/purpose).
-                WriteableUIntField(FieldName.CTRL_GRID_MAX_CURRENT, 2214, min=1, max=30),
-                # Single-source, unverified for EP2000 specifically.
-                WriteableUIntField(FieldName.CTRL_GRID_INPUT_CURRENT, 2272, min=1, max=30),
+                # Fixed: min was 1, but if the device legitimately reports
+                # 0 (e.g. no active import limit set), the old min=1 bound
+                # made in_range() silently discard every reading with no
+                # error - which is exactly what was happening. Changed to
+                # min=0 so real 0 readings actually surface instead of
+                # vanishing. Still unverified against real hardware values
+                # beyond that - watch this once live.
+                WriteableUIntField(FieldName.CTRL_GRID_MAX_CURRENT, 2214, min=0, max=30),
+                # Single-source, unverified for EP2000 specifically. Same
+                # min=1 -> min=0 fix applied as above, for the same reason.
+                # Possibly a duplicate of CTRL_GRID_MAX_CURRENT above -
+                # worth comparing live values from both once they surface,
+                # and removing whichever one turns out to be wrong/unused.
+                WriteableUIntField(FieldName.CTRL_GRID_INPUT_CURRENT, 2272, min=0, max=30),
                 BoolField(FieldName.CTRL_GENERATOR, 2246),
                 DecimalField(FieldName.GRID_VOLT_MIN_VAL, 2435, 1),
                 DecimalField(FieldName.GRID_VOLT_MAX_VAL, 2436, 1),
